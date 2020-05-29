@@ -6,7 +6,7 @@
     <h1 v-else>
       {{ otherError }}
     </h1>
-    <NuxtLink to="/">
+    <NuxtLink :to="pushLink">
       Home page
     </NuxtLink>
   </v-app>
@@ -23,9 +23,15 @@ export default {
   },
   data () {
     return {
+      pushLink: '',
       pageNotFound: '404 Not Found',
       otherError: 'An error occurred'
     }
+  },
+  computed: {
+    userData() {
+      return this.$store.state.userState.user;
+    },
   },
   head () {
     const title =
@@ -33,6 +39,9 @@ export default {
     return {
       title
     }
+  },
+  mounted() {
+    this.pushLink = this.userData.token ? `/profile/${this.userData.username}` : '/login';
   }
 }
 </script>
